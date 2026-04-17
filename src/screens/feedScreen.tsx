@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   FlatList,
   Platform,
@@ -23,9 +23,12 @@ import { useFeedPosts } from '@/hooks/useFeedPosts';
 import type { Post } from '@/schemas/post';
 import { useUiStore } from '@/stores/rootStore';
 import { colors, layout } from '@/theme';
+
+
 export const FeedScreen = observer(function FeedScreen() {
   const ui = useUiStore();
   const { width: screenWidth } = useWindowDimensions();
+  const listRef = useRef<FlatList<Post>>(null);
 
   const {
     posts,
@@ -78,6 +81,11 @@ export const FeedScreen = observer(function FeedScreen() {
 
   const showFullScreenError = Boolean(error) && posts.length === 0;
 
+
+  useEffect(() => {
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [ui.tierFilter]);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.tabsWrap}>
@@ -93,6 +101,7 @@ export const FeedScreen = observer(function FeedScreen() {
         </View>
       ) : (
         <FlatList
+          ref={listRef}
           data={posts}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
