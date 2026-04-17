@@ -1,0 +1,1 @@
+export { PaidLock } from './paidLock';

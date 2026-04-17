@@ -1,24 +1,39 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { QueryProvider } from '@/providers/queryProvider';
+import { AppStoreProvider } from '@/providers/storeProvider';
+import { colors, useManropeFonts } from '@/theme';
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
-
+SplashScreen.preventAutoHideAsync().catch(() => {});
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const fontsLoaded = useManropeFonts();
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <AppStoreProvider>
+      <QueryProvider>
+        <SafeAreaProvider>
+          <StatusBar style="dark" />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: colors.pageBackground },
+              animation: 'fade',
+            }}
+          />
+        </SafeAreaProvider>
+      </QueryProvider>
+    </AppStoreProvider>
   );
 }
