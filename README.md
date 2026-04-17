@@ -1,16 +1,15 @@
 # Mecenate Feed
 
+Expo-приложение (iOS и Android). Веб-сборка в проекте не настраивается.
+
 ## Требования
 
-- Node.js 20 или новее (см. `.nvmrc` и поле `engines` в `package.json`)
-- npm 10 или новее
-- [Expo Go](https://expo.dev/go) на устройстве или iOS Simulator / Android Emulator
+Версии среды должны удовлетворять полю `engines` в `package.json`:
 
-С [nvm](https://github.com/nvm-sh/nvm):
+- **Node.js** ≥ 22  
+- **npm** ≥ 10  
 
-```bash
-nvm use
-```
+Для запуска на устройстве: [Expo Go](https://expo.dev/go). Для эмуляции: iOS Simulator или Android Emulator (средства Xcode / Android Studio).
 
 ## Установка
 
@@ -20,28 +19,31 @@ npm install
 
 ## Переменные окружения
 
-Перед запуском приложения необходимо создать файл `.env` в корне репозитория и задать переменные из таблицы ниже. Шаблон: `.env.example`.
+1. Создайте файл `.env` в корне репозитория (рядом с `package.json`).
+2. Скопируйте ключи из `.env.example` и подставьте рабочие значения.
 
 ```bash
 cp .env.example .env
 ```
 
-Отредактируйте `.env` и укажите актуальные значения. Без этих переменных приложение не стартует.
+Переменные с префиксом `EXPO_PUBLIC_` подхватываются Expo при старте Metro. После правок `.env` полностью перезапустите Metro (остановка процесса и снова `npm start`; при сбоях кэша: `npx expo start --clear`).
 
 | Переменная | Описание |
 | --- | --- |
 | `EXPO_PUBLIC_API_BASE_URL` | Базовый URL API |
 | `EXPO_PUBLIC_API_TOKEN` | Bearer-токен в формате UUID |
 
+Значения читаются в `src/api/config.ts`; пустые или отсутствующие переменные приводят к ошибке при загрузке приложения.
+
 ## Запуск
 
 Metro и QR-код для Expo Go:
 
 ```bash
-npm run start
+npm start
 ```
 
-Сборка в эмуляторе или симуляторе:
+Запуск в симуляторе или эмуляторе:
 
 ```bash
 npm run ios
