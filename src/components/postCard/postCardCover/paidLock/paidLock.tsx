@@ -11,12 +11,21 @@ interface PaidLockProps {
   onDonatePress?: () => void;
 }
 
-const SHOULD_RENDER_BLUR = Platform.OS === 'ios';
+const blurViewProps =
+  Platform.OS === 'android'
+    ? ({
+      experimentalBlurMethod: 'dimezisBlurView' as const,
+      intensity: 50,
+      blurReductionFactor: 3,
+    } as const)
+    : ({
+      intensity: 50,
+    } as const);
 
 function PaidLockComponent({ onDonatePress }: PaidLockProps) {
   return (
     <View style={styles.fill} pointerEvents="box-none">
-      {SHOULD_RENDER_BLUR && <BlurView intensity={40} tint="dark" style={styles.fill} />}
+      <BlurView tint="dark" style={styles.fill} {...blurViewProps} />
       <View style={[styles.fill, styles.scrim]} pointerEvents="box-none" />
       <View style={styles.content} pointerEvents="box-none">
         <View style={styles.iconBox}>

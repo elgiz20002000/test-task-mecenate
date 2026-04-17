@@ -2,15 +2,15 @@
 
 ## Требования
 
-- Node.js 20 или новее (версия зафиксирована в `.nvmrc` и в `package.json` → `engines`)
+- Node.js 20 или новее (см. `.nvmrc` и поле `engines` в `package.json`)
 - npm 10 или новее
+- [Expo Go](https://expo.dev/go) на устройстве или iOS Simulator / Android Emulator
 
-С [nvm](https://github.com/nvm-sh/nvm) в корне репозитория:
+С [nvm](https://github.com/nvm-sh/nvm):
 
 ```bash
 nvm use
 ```
-- [Expo Go](https://expo.dev/go) на устройстве **или** iOS Simulator / Android Emulator
 
 ## Установка
 
@@ -18,33 +18,32 @@ nvm use
 npm install
 ```
 
-## Переменные окружения (необязательно)
+## Переменные окружения
 
-Приложение запускается и без `.env` (используются значения по умолчанию в `src/api/config.ts`).
-
-Чтобы задать свой API и токен:
+Перед запуском приложения необходимо создать файл `.env` в корне репозитория и задать переменные из таблицы ниже. Шаблон: `.env.example`.
 
 ```bash
 cp .env.example .env
 ```
 
-| Переменная | Назначение |
+Отредактируйте `.env` и укажите актуальные значения. Без этих переменных приложение не стартует.
+
+| Переменная | Описание |
 | --- | --- |
-| `EXPO_PUBLIC_API_BASE_URL` | Base URL API |
-| `EXPO_PUBLIC_API_TOKEN` | Bearer-токен (валидный UUID) |
+| `EXPO_PUBLIC_API_BASE_URL` | Базовый URL API |
+| `EXPO_PUBLIC_API_TOKEN` | Bearer-токен в формате UUID |
 
 ## Запуск
 
-Запуск Metro и QR-код для **Expo Go**:
+Metro и QR-код для Expo Go:
 
 ```bash
 npm run start
 ```
 
-Запуск на эмуляторе / симуляторе:
+Сборка в эмуляторе или симуляторе:
 
 ```bash
 npm run ios
 npm run android
 ```
-# test-task-mecenate
