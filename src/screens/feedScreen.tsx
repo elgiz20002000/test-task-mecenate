@@ -1,14 +1,11 @@
+import {
+  LegendList,
+  type LegendListRef,
+  type LegendListRenderItemProps,
+} from '@legendapp/list';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import {
-  FlatList,
-  Platform,
-  RefreshControl,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-  type ListRenderItem,
-} from 'react-native';
+import { RefreshControl, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
@@ -28,7 +25,7 @@ import { colors, layout } from '@/theme';
 export const FeedScreen = observer(function FeedScreen() {
   const ui = useUiStore();
   const { width: screenWidth } = useWindowDimensions();
-  const listRef = useRef<FlatList<Post>>(null);
+  const listRef = useRef<LegendListRef>(null);
 
   const {
     posts,
@@ -54,10 +51,12 @@ export const FeedScreen = observer(function FeedScreen() {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const renderItem = useCallback<ListRenderItem<Post>>(
-    ({ item }) => <PostCard post={item} width={screenWidth} />,
+  const renderItem = useCallback(
+    ({ item }: LegendListRenderItemProps<Post>) => <PostCard post={item} width={screenWidth} />,
     [screenWidth],
   );
+  const estimatedItemSize = useMemo(() => screenWidth + 160, [screenWidth]);
+
 
   const keyExtractor = useCallback((item: Post) => item.id, []);
 
@@ -100,9 +99,10 @@ export const FeedScreen = observer(function FeedScreen() {
           <FeedSkeletonList width={screenWidth} />
         </View>
       ) : (
-        <FlatList
+        <LegendList
           ref={listRef}
           data={posts}
+          extraData={screenWidth}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           ListEmptyComponent={FeedEmptyState}
@@ -110,13 +110,10 @@ export const FeedScreen = observer(function FeedScreen() {
           refreshControl={refreshControl}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
+          estimatedItemSize={estimatedItemSize}
+          recycleItems
           ItemSeparatorComponent={Separator}
           contentContainerStyle={styles.listContent}
-          removeClippedSubviews={Platform.OS === 'android'}
-          initialNumToRender={2}
-          maxToRenderPerBatch={3}
-          windowSize={5}
-          updateCellsBatchingPeriod={80}
           showsVerticalScrollIndicator={false}
         />
       )}
@@ -124,7 +121,7 @@ export const FeedScreen = observer(function FeedScreen() {
   );
 });
 
-function Separator() {
+function Separator(_props: { leadingItem: Post }) {
   return <View style={styles.separator} />;
 }
 
