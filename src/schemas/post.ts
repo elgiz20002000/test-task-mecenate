@@ -36,6 +36,45 @@ export const postsResponseSchema = z.object({
   }),
 });
 
+export const postDetailResponseSchema = z.object({
+  ok: z.boolean(),
+  data: z.object({
+    post: postSchema,
+  }),
+});
+
+export const likeResponseSchema = z.object({
+  ok: z.boolean(),
+  data: z.object({
+    isLiked: z.boolean(),
+    likesCount: z.number().int().nonnegative(),
+  }),
+});
+
+export const commentSchema = z.object({
+  id: z.string(),
+  postId: z.string(),
+  author: authorSchema,
+  text: z.string(),
+  createdAt: z.string(),
+});
+
+export const commentsResponseSchema = z.object({
+  ok: z.boolean(),
+  data: z.object({
+    comments: z.array(commentSchema),
+    nextCursor: z.string().nullable().optional(),
+    hasMore: z.boolean(),
+  }),
+});
+
+export const createCommentResponseSchema = z.object({
+  ok: z.boolean(),
+  data: z.object({
+    comment: commentSchema,
+  }),
+});
+
 export const errorResponseSchema = z.object({
   ok: z.literal(false),
   error: z.object({
@@ -49,4 +88,9 @@ export type FeedFilter = z.infer<typeof feedFilterSchema>;
 export type Author = z.infer<typeof authorSchema>;
 export type Post = z.infer<typeof postSchema>;
 export type PostsResponse = z.infer<typeof postsResponseSchema>;
+export type PostDetailResponse = z.infer<typeof postDetailResponseSchema>;
+export type LikeResponse = z.infer<typeof likeResponseSchema>;
+export type Comment = z.infer<typeof commentSchema>;
+export type CommentsResponse = z.infer<typeof commentsResponseSchema>;
+export type CreateCommentResponse = z.infer<typeof createCommentResponseSchema>;
 export type ApiErrorResponse = z.infer<typeof errorResponseSchema>;

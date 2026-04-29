@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { colors, layout, radii, spacing, typography } from '@/theme';
 
-import { PrimaryButton } from '@/components/primaryButton';
+import { PrimaryButton } from '@/components/ui/primaryButton';
 import { MoneyIcon } from './moneyIcon';
 
 interface PaidLockProps {
@@ -23,11 +23,13 @@ const blurViewProps =
     } as const);
 
 function PaidLockComponent({ onDonatePress }: PaidLockProps) {
+  const hasDonateAction = typeof onDonatePress === 'function';
+
   return (
-    <View style={styles.fill} pointerEvents="box-none">
-      <BlurView tint="dark" style={styles.fill} {...blurViewProps} />
-      <View style={[styles.fill, styles.scrim]} pointerEvents="box-none" />
-      <View style={styles.content} pointerEvents="box-none">
+    <View style={styles.fill} pointerEvents={hasDonateAction ? 'box-none' : 'none'}>
+      <BlurView tint="dark" style={styles.fill} {...blurViewProps} pointerEvents="none" />
+      <View style={[styles.fill, styles.scrim]} pointerEvents="none" />
+      <View style={styles.content} pointerEvents={hasDonateAction ? 'box-none' : 'none'}>
         <View style={styles.iconBox}>
           <MoneyIcon />
         </View>
@@ -35,11 +37,13 @@ function PaidLockComponent({ onDonatePress }: PaidLockProps) {
           Контент скрыт пользователем.{'\n'}
           Доступ откроется после доната
         </Text>
-        <PrimaryButton
-          label="Отправить донат"
-          onPress={onDonatePress}
-          style={styles.donateButton}
-        />
+        {hasDonateAction && (
+          <PrimaryButton
+            label="Отправить донат"
+            onPress={onDonatePress}
+            style={styles.donateButton}
+          />
+        )}
       </View>
     </View>
   );

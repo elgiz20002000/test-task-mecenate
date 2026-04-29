@@ -1,20 +1,22 @@
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AppLayout } from '@/components/layout';
 import { QueryProvider } from '@/providers/queryProvider';
 import { AppStoreProvider } from '@/providers/storeProvider';
-import { colors, useManropeFonts } from '@/theme';
+import { useManropeFonts } from '@/theme';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-SplashScreen.preventAutoHideAsync().catch(() => {});
+SplashScreen.preventAutoHideAsync().catch(() => { });
+
 export default function RootLayout() {
   const fontsLoaded = useManropeFonts();
 
+
   useEffect(() => {
     if (fontsLoaded) {
-      SplashScreen.hideAsync().catch(() => {});
+      SplashScreen.hideAsync().catch(() => { });
     }
   }, [fontsLoaded]);
 
@@ -23,16 +25,11 @@ export default function RootLayout() {
   return (
     <AppStoreProvider>
       <QueryProvider>
-        <SafeAreaProvider>
-          <StatusBar style="dark" />
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: colors.pageBackground },
-              animation: 'fade',
-            }}
-          />
-        </SafeAreaProvider>
+        <KeyboardProvider>
+          <SafeAreaProvider>
+            <AppLayout />
+          </SafeAreaProvider>
+        </KeyboardProvider>
       </QueryProvider>
     </AppStoreProvider>
   );

@@ -1,9 +1,10 @@
+import * as Haptics from 'expo-haptics';
 import { memo, useCallback, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import { AnimatedPressable, usePressAnimation } from '@/hooks/usePressAnimation';
+import { AnimatedPressable, usePressAnimation } from '@/hooks/animations';
 import type { FeedFilter } from '@/schemas/post';
-import { colors, radii, spacing, typography } from '@/theme';
+import { colors, fonts } from '@/theme';
 
 interface FeedTabItemProps {
   id: FeedFilter;
@@ -20,10 +21,14 @@ export const FeedTabItem = memo(function FeedTabItem({
 }: FeedTabItemProps) {
   const [pressed, setPressed] = useState(false);
   const { animatedStyle, onPressIn: animIn, onPressOut: animOut } = usePressAnimation({
-    pressedScale: 0.97,
+    baseScale: isActive ? 1.12 : 1,
+    pressedScale: isActive ? 1.06 : 0.97,
   });
 
-  const handlePress = useCallback(() => onSelect(id), [id, onSelect]);
+  const handlePress = useCallback(() => {
+    void Haptics.selectionAsync().catch(() => { });
+    onSelect(id);
+  }, [id, onSelect]);
 
   const handlePressIn = useCallback(() => {
     setPressed(true);
@@ -39,9 +44,7 @@ export const FeedTabItem = memo(function FeedTabItem({
     ? pressed
       ? colors.brandPurplePressed
       : colors.brandPurple
-    : pressed
-      ? colors.pillSurfacePressed
-      : colors.pillSurface;
+    : 'transparent';
   const textColor = isActive ? colors.textOnPurple : colors.textSecondary;
 
   return (
@@ -55,7 +58,7 @@ export const FeedTabItem = memo(function FeedTabItem({
       hitSlop={8}
       style={[styles.item, { backgroundColor }, animatedStyle]}
     >
-      <Text style={[styles.label, { color: textColor }]} numberOfLines={1}>
+      <Text style={[styles.label, isActive && styles.labelActive, { color: textColor }]} numberOfLines={1}>
         {label}
       </Text>
     </AnimatedPressable>
@@ -68,11 +71,15 @@ const styles = StyleSheet.create({
     height: 38,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: spacing.x3,
-    borderRadius: radii.pill,
+    paddingHorizontal: 10,
+    borderRadius: 22,
   },
   label: {
-    ...typography.button,
-    lineHeight: 20,
+    fontSize: 13,
+    lineHeight: 18,
+    fontFamily: fonts.medium,
+  },
+  labelActive: {
+    fontFamily: fonts.bold,
   },
 });

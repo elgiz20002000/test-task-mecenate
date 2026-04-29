@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, layout, radii, spacing, typography } from '@/theme';
+
 function FeedEmptyStateComponent() {
   return (
     <View style={styles.card}>

@@ -4,11 +4,7 @@ import { useEffect, useMemo, useRef } from 'react';
 
 import { getPosts } from '@/api/posts';
 import type { Post, PostsResponse, Tier } from '@/schemas/post';
-export const postsQueryKeys = {
-  all: ['posts'] as const,
-  list: (tier: Tier | undefined, simulateError: boolean) =>
-    [...postsQueryKeys.all, 'list', { tier: tier ?? 'all', simulateError }] as const,
-};
+import { postsQueryKeys } from './queryKeys';
 
 interface UseFeedPostsArgs {
   tier?: Tier;
@@ -26,6 +22,7 @@ interface UseFeedPostsResult {
   refetch: () => Promise<unknown>;
   fetchNextPage: () => Promise<unknown>;
 }
+
 export function useFeedPosts({
   tier,
   simulateError = false,

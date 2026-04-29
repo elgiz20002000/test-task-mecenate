@@ -4,7 +4,6 @@
     "slug": "mecenate-feed",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
     "scheme": "mecenate",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -15,25 +14,14 @@
     "android": {
       "package": "com.mecenate.feed",
       "adaptiveIcon": {
-        "backgroundColor": "#F5F8FD",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#F5F8FD"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#F5F8FD"
-        }
-      ],
+      "expo-splash-screen",
       "expo-font"
     ],
     "experiments": {

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { layout } from '@/theme';
 
-import { PostCardSkeleton } from '../postCard/postCardSkeleton';
+import { PostCardSkeleton } from '../post/postCard/postCardSkeleton';
 
 const PLACEHOLDERS = [0, 1, 2] as const;
 

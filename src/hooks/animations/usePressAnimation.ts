@@ -11,6 +11,7 @@ import Animated, {
 export const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface PressAnimationOptions {
+  baseScale?: number;
   pressedScale?: number;
   pressedOpacity?: number;
   duration?: number;
@@ -23,6 +24,7 @@ interface PressAnimation {
 }
 
 export function usePressAnimation({
+  baseScale = 1,
   pressedScale = 0.96,
   pressedOpacity = 1,
   duration = 120,
@@ -32,7 +34,7 @@ export function usePressAnimation({
   const animatedStyle = useAnimatedStyle(() => {
     const t = progress.value;
     return {
-      transform: [{ scale: 1 - (1 - pressedScale) * t }],
+      transform: [{ scale: baseScale + (pressedScale - baseScale) * t }],
       opacity: 1 - (1 - pressedOpacity) * t,
     };
   });

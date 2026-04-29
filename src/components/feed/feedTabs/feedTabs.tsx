@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { StyleSheet, View } from 'react-native';
 
 import { useUiStore } from '@/stores/rootStore';
-import { spacing } from '@/theme';
+import { colors, spacing } from '@/theme';
 
 import { FeedTabItem } from './feedTabItem';
 import { FEED_TABS } from './feedTabsConfig';
@@ -27,8 +27,15 @@ export const FeedTabs = observer(function FeedTabs() {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.cardBackground,
+    borderWidth: 1,
+    borderColor: colors.borderSubtle,
+    borderRadius: 999,
     flexDirection: 'row',
-    gap: spacing.x2,
-    paddingHorizontal: spacing.x4,
+    width: 361,
+    maxWidth: '100%',
+    alignSelf: 'center',
+    padding: 1,
+    marginHorizontal: spacing.x4,
   },
 });

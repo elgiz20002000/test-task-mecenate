@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, layout, radii, spacing, typography } from '@/theme';
 
-import { PrimaryButton } from '../../primaryButton';
+import { PrimaryButton } from '../../ui/primaryButton';
 import { ErrorIllustration } from './errorIllustration';
 
 interface FeedErrorStateProps {

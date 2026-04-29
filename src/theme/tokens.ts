@@ -6,12 +6,15 @@ export const palette = {
   pageBackground: '#F5F8FD',
   textPrimary: '#111416',
   textSecondary: '#57626F',
+  textMuted: '#68727D',
   textDisabled: '#B6BEC8',
 
   surfacePill: '#EFF2F7',
   surfacePillHover: '#DDDDDD',
   surfacePillPressed: '#D4D4D4',
+  borderSubtle: '#E8ECEF',
   skeleton: 'rgba(238, 239, 241, 0.8)',
+  skeletonLine: '#E3E7EE',
 
   likeBg: '#FF2B75',
   likeBgHover: '#EA276B',
@@ -36,6 +39,7 @@ export const colors = {
 
   textPrimary: palette.textPrimary,
   textSecondary: palette.textSecondary,
+  textMuted: palette.textMuted,
   textDisabled: palette.textDisabled,
   textOnDark: palette.white,
   textOnPurple: palette.white,
@@ -56,6 +60,8 @@ export const colors = {
   brandPurpleDisabled: palette.brandPurpleDisabled,
 
   skeleton: palette.skeleton,
+  borderSubtle: palette.borderSubtle,
+  skeletonLine: palette.skeletonLine,
   paidOverlay: palette.paidOverlay,
 } as const;
 
@@ -128,8 +134,8 @@ export const layout = {
   feedGap: spacing.x4,
   feedPaddingH: 0,
   avatarSize: 40,
-  actionIconSize: 24,
-  actionCommentGlyph: 15,
+  actionIconSize: 18,
+  actionCommentGlyph: 18,
   donateIconSize: 20,
   donateIconBox: 42,
   donateIconRadius: radii.md,

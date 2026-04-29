@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from 'react';
 import { StyleSheet, Text, View, type ViewStyle } from 'react-native';
 
-import { AnimatedPressable, usePressAnimation } from '@/hooks/usePressAnimation';
+import { AnimatedPressable, usePressAnimation } from '@/hooks/animations';
 import { colors, radii, spacing, typography } from '@/theme';
 
 interface PrimaryButtonProps {

@@ -1,7 +1,7 @@
 import { memo, useCallback, useState, type ReactNode } from 'react';
-import { StyleSheet, Text, type GestureResponderEvent } from 'react-native';
+import { StyleSheet, Text, type GestureResponderEvent, type TextStyle, type ViewStyle } from 'react-native';
 
-import { AnimatedPressable, usePressAnimation } from '@/hooks/usePressAnimation';
+import { AnimatedPressable, usePressAnimation } from '@/hooks/animations';
 import { colors, radii, spacing, typography } from '@/theme';
 
 interface ActionPillProps {
@@ -9,9 +9,26 @@ interface ActionPillProps {
   count: number;
   accessibilityLabel?: string;
   onPress?: (event: GestureResponderEvent) => void;
+  disabled?: boolean;
+  countNode?: ReactNode;
+  style?: ViewStyle;
+  pressedBackgroundColor?: string;
+  defaultBackgroundColor?: string;
+  countStyle?: TextStyle;
 }
 
-function ActionPillComponent({ icon, count, accessibilityLabel, onPress }: ActionPillProps) {
+function ActionPillComponent({
+  icon,
+  count,
+  accessibilityLabel,
+  onPress,
+  disabled = false,
+  countNode,
+  style,
+  pressedBackgroundColor = colors.pillSurfacePressed,
+  defaultBackgroundColor = colors.pillSurface,
+  countStyle,
+}: ActionPillProps) {
   const [pressed, setPressed] = useState(false);
   const { animatedStyle, onPressIn: animIn, onPressOut: animOut } = usePressAnimation({
     pressedScale: 0.94,
@@ -31,18 +48,21 @@ function ActionPillComponent({ icon, count, accessibilityLabel, onPress }: Actio
     <AnimatedPressable
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled }}
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      disabled={disabled}
       hitSlop={8}
       style={[
         styles.pill,
-        { backgroundColor: pressed ? colors.pillSurfacePressed : colors.pillSurface },
+        { backgroundColor: pressed ? pressedBackgroundColor : defaultBackgroundColor },
         animatedStyle,
+        style,
       ]}
     >
       {icon}
-      <Text style={styles.count}>{String(count)}</Text>
+      {countNode ?? <Text style={[styles.count, countStyle]}>{String(count)}</Text>}
     </AnimatedPressable>
   );
 }
@@ -53,9 +73,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.x1,
-    paddingLeft: 6,
-    paddingRight: spacing.x3,
-    paddingVertical: 6,
+    height: 42,
+    paddingHorizontal: spacing.x3,
     borderRadius: radii.pill,
   },
   count: {
