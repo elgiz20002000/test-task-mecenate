@@ -12,7 +12,8 @@ interface PostCommentItemProps {
 
 export const PostCommentItem = memo(function PostCommentItem({ comment }: PostCommentItemProps) {
   const authorName = comment.author.displayName || comment.author.username || 'Автор';
-  const commentLikeCount = 1;
+  // TODO: Missed like count from API
+  const commentLikeCount = 2;
 
   return (
     <View style={styles.container}>
