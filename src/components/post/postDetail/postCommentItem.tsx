@@ -12,7 +12,7 @@ interface PostCommentItemProps {
 
 export const PostCommentItem = memo(function PostCommentItem({ comment }: PostCommentItemProps) {
   const authorName = comment.author.displayName || comment.author.username || 'Автор';
-  const commentLikeCount = 2;
+  const commentLikeCount = 1;
 
   return (
     <View style={styles.container}>
